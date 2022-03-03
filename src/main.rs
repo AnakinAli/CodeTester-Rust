@@ -31,7 +31,7 @@ fn main() {
 
 fn make_request(url: String, result: Result, mut count_errors: u8) -> u8 {
     let payload = serde_json::to_string(&result).unwrap();
-
+    println!("{}",payload);
     let command = format!("curl --location --request POST {url} --header 'Content-Type: application/json' --data-raw '{payload}'",
                           url = url, payload = payload);
 
@@ -43,10 +43,12 @@ fn make_request(url: String, result: Result, mut count_errors: u8) -> u8 {
             .expect("failed to execute process");
 
     return if output.status.success() {
+        print!("{}",String::from_utf8_lossy(&output.stdout).to_string());
         0
     } else {
 
         if count_errors == 0 {
+
             return 0;
         }
         count_errors = count_errors - 1;

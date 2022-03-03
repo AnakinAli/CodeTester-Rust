@@ -40,6 +40,24 @@ fn search_data_line_by_line(expected_output: &String, real_output: &String) -> L
     };
 }
 
+fn get_directory_file_path(file_path: &str) -> String {
+    let paths = file_path.split('/');
+    return file_path.replace(paths.last().unwrap(), "").to_string();
+}
+
+fn handle_pips(path: &str) {
+    let command_pips = format!("\
+    cd {} && \
+    pip freeze > requirements.txt &&\
+    pip install -r requirements.txt", get_directory_file_path(path));
+
+    Command::new("sh")
+        .arg("-c")
+        .arg(command_pips)
+        .output()
+        .expect("failed to execute process");
+}
+
 #[derive(Debug)]
 pub struct Output {
     pub has_errors: bool,
@@ -51,6 +69,8 @@ pub struct Output {
 impl Output {
     pub fn output(path: &str, input_path: &str, output_path: &str) -> Output {
         let command = format!("python3 {} {}", path, input_path);
+
+        handle_pips(path);
 
         let output =
             Command::new("sh")

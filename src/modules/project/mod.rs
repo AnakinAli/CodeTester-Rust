@@ -2,7 +2,7 @@ use walkdir::WalkDir;
 use std::fs::metadata;
 
 /// Samples input extension
-const PYTHON_EXTENSION_FILE: &str = ".py";
+pub const PYTHON_EXTENSION_FILE: &str = ".py";
 
 #[derive(Debug)]
 pub struct Project {
