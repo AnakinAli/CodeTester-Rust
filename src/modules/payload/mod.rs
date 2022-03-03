@@ -1,13 +1,16 @@
 use crate::modules::Output;
 
-#[derive(Debug)]
+extern crate serde;
+extern crate serde_json;
+
+#[derive(Serialize, Deserialize,Debug)]
 pub struct Result {
     pub usid: String,
     pub different: bool,
     pub lines: Lines,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize,Debug)]
 pub struct Lines {
     pub n: u8,
     pub expected: String,
@@ -21,8 +24,8 @@ fn set_lines(output: &Output) -> Lines {
         result: output.real_output.to_string(),
     }
 }
-
 impl Result {
+
     pub fn result(usid: String, output: &Output) -> Result {
         let lines = set_lines(output);
 

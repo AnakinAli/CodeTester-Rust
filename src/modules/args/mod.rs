@@ -1,6 +1,9 @@
+use std::env::{args};
+
 fn get_nth_element(n: usize) -> String {
-    std::env::args().nth(n).unwrap()
+    args().nth(n).unwrap()
 }
+
 #[derive(Debug)]
 pub struct Args {
     pub usid: String,
@@ -8,8 +11,8 @@ pub struct Args {
 }
 
 impl Args {
-    pub fn get()->Self{
-        Args{
+    pub fn get() -> Self {
+        Args {
             usid: get_nth_element(1),
             url: get_nth_element(2),
         }
